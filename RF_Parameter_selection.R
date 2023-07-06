@@ -1,7 +1,6 @@
 #This script below is from Brieuc et al. 2018
 #See: Brieuc, M.S., Waters, C.D., Drinan, D.P. and Naish, K.A., 2018. A practical introduction to Random Forest for genetic association studies in ecology and evolution. Molecular ecology resources, 18(4), pp.755-766
 
-#This script was run to test different values for mtry and ntree to determine the best parameters for the random forest model
 
 ######
 # Introductory tutorial for conducting Random Forest on data with a continuous response variable 
@@ -14,10 +13,10 @@ library(randomForest)
 # The objective is to identify which environmental/anthropogenic variables are associated with salmon abundance at Conne River
 
 #set directory
-setwd("C://Users/LehnertS/Desktop/Manuscripts/ConneDeclines/RandomForest/RScript/Conne_Updated_May2023/")
+setwd("C://Users/LehnertS/Desktop/Manuscripts/ConneDeclines/RandomForest/RScript/Update_July6_2023/")
 
 #Read data
-env<-read.table("Conne_Data_July6_2023_update_1987-2019_noCorr.csv", sep=",", header=T)
+env<-read.table("All_data_1987_2021_ConneRiver_nonCorrelated_july6_2023.csv", sep=",", header=T)
 
 #Manipulate/prepare data for analysis
 rownames(env)<-env[,1] #Add rownames (years)
@@ -29,7 +28,7 @@ scaleenv<-as.data.frame(apply(env[,5:ncol(env)], 2, function(x) scale(x)))
 rownames(scaleenv)<-rownames(env) #add year row names
 
 #Check dimensions of scaled dataset
-dim(scaleenv) #This includes 34 rows (years) and 13 variables 
+dim(scaleenv) #This includes 35 rows (years) and 12 variables 
 
 #First, explore the overall distribution of small returns
 #This represents the scaled data
@@ -42,12 +41,12 @@ hist(env$Return_Small) #non scaled
 
 # First, we need to optimize mtry by running different values of mtry at different values of ntree. 
 
-# We will run mtry values - since we have 13 variables - these will be run from 4 to 12 
+# We will run mtry values - since we have 12 variables - these will be run from 4 to 12 
 # We will initially run each of these mtry values at ntree=100 to 5000 (by increments of 100). 
 # We are looking for a plateau where the proportion variation explained (PVE) stops increasing with larger values of ntree
 # Once we reach the plateau, we will choose the mtry value that maximizes PVE.
 
-#This optimization uses all 13 scaled variables with the response being 'small salmon returns' (scaled as well)
+#This optimization uses all 12 scaled variables with the response being 'small salmon returns' (scaled as well)
 results_optimization <- matrix(data=NA , nrow = 0, ncol = 3)
 
 for (i in seq(from = 100, to = 5000 , by = 100)){  # values of ntree
@@ -119,10 +118,11 @@ colnames(importance_rf_all)<-c("Variable","Importance1","Importance2", "Importan
 cor(importance_rf_all[,2:4]) #results are highly correlated r>0.99
 
 # Export importance values for future reference
-write.csv(importance_rf_all,file="rf_importance_values_SmallRetunrs_1987-2020_jul6.csv",row.names=FALSE)
+write.csv(importance_rf_all,file="rf_importance_values_SmallRetunrs_1987-2021_jul6.csv",row.names=FALSE)
 
 ############################################################################################################################################
 ############################################################################################################################################
 
 #much of the remaining script for Brieuc et al. 2018 is on identifying groups of genetic loci that may be predictive of phenotype 
-#in their study there are 1000s of loci, here we have only 13 predictors, and we did not explore this further. 
+#in their study there are 1000s of loci, here we have only 12 predictors, and we did not explore this further. 
+
