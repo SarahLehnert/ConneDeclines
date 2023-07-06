@@ -1,3 +1,6 @@
+#Script for r unning random forest analyses with final dataset
+
+#Set directory and open libraries
 setwd("C://Users/LehnertS/Desktop/Manuscripts/ConneDeclines/RandomForest/RScript/Update_July6_2023/")
 library(randomForest)
 library(ggplot2)
