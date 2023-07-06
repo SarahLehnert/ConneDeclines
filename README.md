@@ -1,5 +1,5 @@
 # Conne River paper
-R scripts for running random Forest analysis for Conne River
+R scripts for running Random Forest analysis for Conne River
 
 Includes R scripts to test:
 1) Correlation among variables across the time series (1987-2021)
